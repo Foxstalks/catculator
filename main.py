@@ -4,6 +4,9 @@ current_number_sum = 0
 current_number_minus = 0
 current_number_division = 0
 current_number_multiply = 0
+bin=0
+hex=0
+oct=0
 
 
 root = Tk()#окно
@@ -209,9 +212,76 @@ def clear_entry():
     current_number_minus = 0
     current_number_division = 0
     e.delete(0, END)
+
+
+def convert_to_bin():
+    global bin,hex,oct
+    current_number = e.get()
+    if current_number == hex:
+        current_number = int(current_number, 16)
+    elif current_number == oct:
+        current_number = int(current_number, 8)
+    else:
+        current_number = int(current_number)
+    bin = ""
+    while current_number>0:
+        remainder=current_number%2
+        bin=str(remainder)+bin
+        current_number=current_number//2
+    e.delete(0, END)
+    e.insert(0, bin)
+    """current_number = e.get()
+    current_number=int(current_number)
+    result=bin(current_number)
+    e.delete(0, END)
+    e.insert(0,result)"""
+def convert_to_oct():
+    global bin, hex, oct
+    current_number = e.get()
+    if current_number==bin:
+        current_number = int(current_number,2)
+    elif current_number==hex:
+        current_number = int(current_number, 16)
+    else:
+        current_number = int(current_number)
+    oct = ""
+    while current_number > 0:
+        remainder = current_number % 8
+        oct = str(remainder) + oct
+        current_number = current_number // 8
+    e.delete(0, END)
+    e.insert(0, oct)
+    """current_number = e.get()
+    current_number = int(current_number)
+    result = oct(current_number)
+    e.delete(0, END)
+    e.insert(0, result)"""
+def convert_to_hex():
+    current_number = e.get()
+    global bin, hex, oct
+    if current_number == bin:
+        current_number = int(current_number, 2)
+    elif current_number == oct:
+        current_number = int(current_number, 8)
+    else:
+        current_number = int(current_number)
+    hex_d = "0123456789ABCDEF"
+    hex = ""
+    while current_number > 0:
+        remainder = current_number % 16
+        hex = hex_d[remainder] + hex
+        current_number = current_number // 16
+    e.delete(0, END)
+    e.insert(0, hex)
+    """current_number = e.get()
+    current_number = int(current_number)
+    result = hex(current_number)
+    e.delete(0, END)
+    e.insert(0, result)"""
+
+
+
 e = Entry(width=15, font=("Courier", 15,"bold"),bg="#FFF5EE")#парметры label
-
-
 button1 = Button(width=6, height=2, text ='1', font=("Courier", 10, "bold"),bg="#FFF5EE", command=lambda: button_click(1, e))#кнопки с цифрами и их пармаетры \ при нажатии обрабатывается функция digit(x)-x установленное значение кнопки прим 9
 button2 = Button(width=6, height=2, text ='2', font=("Courier", 10, "bold"),bg="#FFF5EE", command=lambda: button_click(2, e))
 button3 = Button(width=6, height=2, text ='3', font=("Courier", 10, "bold"),bg="#FFF5EE",  command=lambda: button_click(3, e))
@@ -231,27 +301,33 @@ button_multy = Button(width=6, height=2, text ='*', font=("Courier", 10, "bold")
 button_division = Button(width=6, height=2, text ='/', font=("Courier", 10, "bold"),bg="#E0BFB8", command= lambda: division_click())
 button_sqrt = Button(width=6, height=2, text ='**', font=("Courier", 10, "bold"),bg="#E0BFB8")
 button_root = Button(width=6, height=2, text ='√', font=("Courier", 10, "bold"),bg="#E0BFB8")
-
+button_bin=Button(width=6, height=2, text ='bin', font=("Courier", 10, "bold"),bg="#E0BFB8",command=convert_to_bin)
+button_oct=Button(width=6, height=2, text ='oct', font=("Courier", 10, "bold"),bg="#E0BFB8",command=convert_to_oct)
+button_hex=Button(width=6, height=2, text ='hex', font=("Courier", 10, "bold"),bg="#E0BFB8",command=convert_to_hex)
 e.grid(row=0, column=0, columnspan=3,  pady=10, ipadx=8, ipady=8, sticky="nsew")
-button2.grid(row=1, column=0, sticky="nsew")
-button3.grid(row=1, column=1, sticky="nsew")
-button4.grid(row=1, column=2, sticky="nsew")
-button5.grid(row=2, column=0, sticky="nsew")
-button6.grid(row=2, column=1, sticky="nsew")
-button7.grid(row=2, column=2, sticky="nsew")
-button8.grid(row=3, column=0, sticky="nsew")
-button9.grid(row=3, column=1, sticky="nsew")
-button0.grid(row=3, column=2, sticky="nsew")
-buttondot.grid(row=4, column=0, sticky="nsew")
-button_equal.grid(row=4, column=1, sticky="nsew")#в процентах размер и сделать фрейм по центру
-button_plus.grid(row=4, column=2, sticky="nsew")
-button_minus.grid(row=5, column=0, sticky="nsew")
-button_multy.grid(row=5, column=1, sticky="nsew")
-button_division.grid(row=5, column=2, sticky="nsew")
+button1.grid(row=1, column=0, sticky="nsew")
+button2.grid(row=1, column=1, sticky="nsew")
+button3.grid(row=1, column=2, sticky="nsew")
+button4.grid(row=2, column=0, sticky="nsew")
+button5.grid(row=2, column=1, sticky="nsew")
+button6.grid(row=2, column=2, sticky="nsew")
+button7.grid(row=3, column=0, sticky="nsew")
+button8.grid(row=3, column=1, sticky="nsew")
+button9.grid(row=3, column=2, sticky="nsew")
+button0.grid(row=4, column=0, sticky="nsew")
+buttondot.grid(row=4, column=1, sticky="nsew")
+button_equal.grid(row=4, column=2, sticky="nsew")#в процентах размер и сделать фрейм по центру
+button_plus.grid(row=5, column=0, sticky="nsew")
+button_minus.grid(row=5, column=1, sticky="nsew")
+button_multy.grid(row=5, column=2, sticky="nsew")
+button_division.grid(row=6, column=0, sticky="nsew")
 #button_sqrt.pack()
 #button_root.pack()
+button_bin.grid(row=7, column=0, sticky="nsew")
+button_oct.grid(row=7, column=1, sticky="nsew")
+button_hex.grid(row=7, column=2, sticky="nsew")
 buttonC.grid(row=6, column=2, sticky="nsew")
-for i in range(7):
+for i in range(8):
     root.grid_rowconfigure(i, weight=1)
     root.grid_columnconfigure(i, weight=1)
 root.mainloop()
